@@ -8,6 +8,7 @@ from eralchemy import render_er
 
 Base = declarative_base()
 
+#Planetas#
 class Planets(Base):
     __tablename__ = "planets"
     id = Column(Integer, primary_key=True)
@@ -16,6 +17,16 @@ class Planets(Base):
     population = Column(String(50), nullable=True)
     url_imagen = Column(String(200),nullable=True)
 
+
+class User_Favorite_PLanets(Base):
+    __tablename__ = 'user_favorite_planets'
+    id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, ForeignKey('user.id'))
+    planet_id = Column(String(50), ForeignKey('planets.id'))
+
+#------------------------------------------
+
+#User#
 class User(Base):
     __tablename__ = 'user'
     id = Column(Integer, primary_key=True)
@@ -23,7 +34,9 @@ class User(Base):
     user = Column(String(50), nullable=True)
     email = Column(String(200), nullable=True, unique=True)
     password = Column(String(50), nullable=True)
-    
+
+#------------------------------------------
+#Personajes#
 class Characters(Base):
     __tablename__ = 'characters'
     id = Column(Integer, primary_key=True)
@@ -35,12 +48,6 @@ class Characters(Base):
     eye_color = Column(String(50), nullable=True)
     url_imagen = Column(String(200),nullable=True)
 
-class User_Favorite_PLanets(Base):
-    __tablename__ = 'user_favorite_planets'
-    id = Column(Integer, primary_key=True)
-    user_id = Column(Integer, ForeignKey('user.id'))
-    planet_id = Column(String(50), ForeignKey('planets.id'))
-
 class Favorite_Characters(Base):
     __tablename__ = 'Favorite_characters'
     id = Column(Integer, primary_key=True)
@@ -48,7 +55,7 @@ class Favorite_Characters(Base):
     character_id = Column(String(50), ForeignKey('characters.id'))
     def to_dict(self):
         return {}
-
+#------------------------------------------
 
 ## Draw from SQLAlchemy base
 render_er(Base, 'diagram.png')
